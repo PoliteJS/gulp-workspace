@@ -10,15 +10,15 @@ var webpack = require('webpack');
 var gutil = require('gulp-util');
 var change = require('gulp-change');
 
-var htmlBundle = require('../dev-html-bundle');
+var htmlBundle = require('../lib/dev-html-bundle');
 
 
-exports.init = function(gulp, config) {
+exports.start = function(gulp, config) {
 
 	gulp.task('wkd-clean-js', function () {
 	    return gulp.src([
-	    	path.join(config.dest.dev, config.source.core, '**/*.js'),
-	    	path.join(config.dest.dev, config.source.core, '**/*.js.map')
+	    	path.join(config.target.dev.path, config.source.scripts, '**/*.js'),
+	    	path.join(config.target.dev.path, config.source.scripts, '**/*.js.map')
 	    ], { read: false })
 	        .pipe(rimraf())
 	    ;
@@ -26,8 +26,8 @@ exports.init = function(gulp, config) {
 
 	gulp.task('wkd-clean-libs', function () {
 	    return gulp.src([
-	    	path.join(config.dest.dev, config.source.core, '**/lib.*.bundle.js'),
-	    	path.join(config.dest.dev, config.source.core, '**/lib.*.bundle.js.map')
+	    	path.join(config.target.dev.path, config.source.scripts, '**/lib.*.bundle.js'),
+	    	path.join(config.target.dev.path, config.source.scripts, '**/lib.*.bundle.js.map')
 	    ], { read: false })
 	        .pipe(rimraf())
 	    ;
@@ -35,8 +35,8 @@ exports.init = function(gulp, config) {
 
 	gulp.task('wkd-clean-css', function () {
 	    return gulp.src([
-	        path.join(config.dest.dev, config.source.core, '**/*.css'),
-	    	path.join(config.dest.dev, config.source.core, '**/*.css.map')
+	        path.join(config.target.dev.path, config.source.styles, '**/*.css'),
+	    	path.join(config.target.dev.path, config.source.styles, '**/*.css.map')
 	    ], { read: false })
 	        .pipe(rimraf())
 	    ;
@@ -44,7 +44,7 @@ exports.init = function(gulp, config) {
 
 	gulp.task('wkd-clean-assets', function () {
 	    return gulp.src([
-	    	path.join(config.dest.dev, config.source.assets)
+	    	path.join(config.target.dev.path, config.source.assets)
 	    ], { read: false })
 	        .pipe(rimraf())
 	    ;
@@ -52,7 +52,8 @@ exports.init = function(gulp, config) {
 
 	gulp.task('wkd-clean-html', function () {
 	    return gulp.src([
-	    	path.join(config.dest.dev, config.source.core, '**/*.html')
+	    	path.join(config.target.dev.path, '**/*.html'),
+	    	'!' + path.join(config.source.dev.path, config.source.assets, '**/*.html')
 	    ], { read: false })
 	        .pipe(rimraf())
 	    ;
@@ -60,7 +61,7 @@ exports.init = function(gulp, config) {
 
 	gulp.task('wkd-clean', function () {
 	    return gulp.src([
-	    	config.dest.dev
+	    	config.target.dev.path
 	    ], { read: false })
 	        .pipe(rimraf())
 	    ;
@@ -76,8 +77,8 @@ exports.init = function(gulp, config) {
 	    return gulp.src([
 	    	path.join(config.source.path, config.source.assets, '**/*'), '!**/*.less'
 	    ])
-	        .pipe(changed(path.join(config.dest.dev, config.source.assets)))
-	        .pipe(gulp.dest(path.join(config.dest.dev, config.source.assets)))
+	        .pipe(changed(path.join(config.target.dev.path, config.source.assets)))
+	        .pipe(gulp.dest(path.join(config.target.dev.path, config.source.assets)))
 	    ;
 	});
 
@@ -85,12 +86,12 @@ exports.init = function(gulp, config) {
 	    return gulp.src([
 	    	path.join(config.source.path, '**/*.html'),
 	    	'!' + path.join(config.source.path, config.source.assets, '**/*.html'),
-	    	'!' + path.join(config.source.path, config.source.core, '**/*.html'),
+	    	// '!' + path.join(config.source.path, config.source.scripts, '**/*.html'),
 	    	'!' + path.join(config.source.path, config.source.features, '**/*.html')
 	    ])
 	        .pipe(changed('build/dev'))
 	        .pipe(change(htmlBundle))
-	        .pipe(gulp.dest(config.dest.dev))
+	        .pipe(gulp.dest(config.target.dev.path))
 	    ;
 	});
 
@@ -98,11 +99,11 @@ exports.init = function(gulp, config) {
 	    return gulp.src([
 	    	path.join(config.source.path, '**/*.html'),
 	    	'!' + path.join(config.source.path, config.source.assets, '**/*.html'),
-	    	'!' + path.join(config.source.path, config.source.core, '**/*.html'),
+	    	// '!' + path.join(config.source.path, config.source.core, '**/*.html'),
 	    	'!' + path.join(config.source.path, config.source.features, '**/*.html')
 	    ])
 	        .pipe(change(htmlBundle))
-	        .pipe(gulp.dest(config.dest.dev))
+	        .pipe(gulp.dest(config.target.dev.path))
 	    ;
 	});
 
@@ -116,13 +117,13 @@ exports.init = function(gulp, config) {
 
 	gulp.task('wkd-less', function () {
 	    gulp.src([
-	    	path.join(config.source.path, config.source.core, '*.less')
+	    	path.join(config.source.path, config.source.styles, '*.less')
 	    ])
 	        .pipe(size({ title: 'less', 'showFiles': true }))
 	        .pipe(sourcemaps.init())
 	        .pipe(less())
 	        .pipe(sourcemaps.write('./'))
-	        .pipe(gulp.dest(path.join(config.dest.dev, config.source.core)));
+	        .pipe(gulp.dest(path.join(config.target.dev.path, config.source.styles)));
 	});
 
 
@@ -135,7 +136,7 @@ exports.init = function(gulp, config) {
 	gulp.task('wkd-webpack', function(done) {
 
 		var defaultOptions = {
-	    	context: path.join(process.cwd(), config.source.path, config.source.core),
+	    	context: path.join(process.cwd(), config.source.path, config.source.scripts),
 	    	entry: {},
 	        output: {},
 	        resolve: {},
@@ -149,8 +150,8 @@ exports.init = function(gulp, config) {
 	    };
 
 		var defaultOutputOptions = {
-			path: path.join(process.cwd(), config.dest.dev, config.source.core),
-        	publicPath: '/' + config.source.core + '/',
+			path: path.join(process.cwd(), config.target.dev.path, config.source.scripts),
+        	publicPath: '/' + config.source.scripts + '/',
             filename: '[name].js',
             chunkFilename: '[id].js',
             sourceMapFilename: '[file].map'
@@ -174,7 +175,7 @@ exports.init = function(gulp, config) {
 
 	    // fetch entry points dynamically
 	    if (!Object.keys(webpackConfig.entry).length) {
-	    	fs.readdirSync(path.join(config.source.path, config.source.core)).filter(function(file) {
+	    	fs.readdirSync(path.join(config.source.path, config.source.scripts)).filter(function(file) {
 				return file.indexOf('.js') !== -1;
 			}).forEach(function(file) {
 				webpackConfig.entry[file.substr(0, file.indexOf('.'))] = './' + file
@@ -185,7 +186,7 @@ exports.init = function(gulp, config) {
 	    webpackConfig.plugins.push(function() {
 	    	this.plugin('done', function(stats) {
 		    	fs.writeFileSync(
-					path.join(process.cwd(), config.dest.dev, 'webpack.json'),
+					path.join(process.cwd(), config.target.dev.path, 'webpack.json'),
 					JSON.stringify(stats.toJson())
 				);
 	    	});

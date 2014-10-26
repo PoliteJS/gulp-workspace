@@ -1,11 +1,12 @@
 {
   "name": "gulp-workspace",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "PoliteJS Workspace Utility Package for GulpJS",
   "main": "index.js",
   "dependencies": {
     "MD5": "^1.2.1",
     "cheerio": "^0.17.0",
+    "eivindfjeldstad-dot": "0.0.1",
     "gulp": "^3.8.9",
     "gulp-change": "^1.0.0",
     "gulp-changed": "^1.0.0",
@@ -19,7 +20,14 @@
     "jshint-stylish": "^1.0.0",
     "run-sequence": "^1.0.1",
     "uglify-js": "^2.4.15",
-    "webpack": "^1.4.8"
+    "webpack": "^1.4.8",
+    "body-parser": "^1.9.1",
+    "cookie-parser": "^1.3.3",
+    "express": "^4.10.0",
+    "express-livereload": "0.0.24",
+    "livereload": "^0.3.4",
+    "serve-static": "^1.7.1",
+    "yargs": "^1.3.2"
   },
   "devDependencies": {},
   "scripts": {
