@@ -1,6 +1,6 @@
 {
   "name": "gulp-workspace",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "PoliteJS Workspace Utility Package for GulpJS",
   "main": "index.js",
   "dependencies": {
