@@ -87,7 +87,7 @@ exports.start = function(gulp, config) {
 	    	path.join(config.source.path, '**/*.html'),
 	    	'!' + path.join(config.source.path, config.source.assets, '**/*.html'),
 	    	// '!' + path.join(config.source.path, config.source.scripts, '**/*.html'),
-	    	'!' + path.join(config.source.path, config.source.features, '**/*.html')
+	    	'!' + path.join(config.source.path, config.source.modules, '**/*.html')
 	    ])
 	        .pipe(changed('build/dev'))
 	        .pipe(change(htmlBundle))
@@ -100,7 +100,7 @@ exports.start = function(gulp, config) {
 	    	path.join(config.source.path, '**/*.html'),
 	    	'!' + path.join(config.source.path, config.source.assets, '**/*.html'),
 	    	// '!' + path.join(config.source.path, config.source.core, '**/*.html'),
-	    	'!' + path.join(config.source.path, config.source.features, '**/*.html')
+	    	'!' + path.join(config.source.path, config.source.modules, '**/*.html')
 	    ])
 	        .pipe(change(htmlBundle))
 	        .pipe(gulp.dest(config.target.dev.path))
@@ -159,14 +159,18 @@ exports.start = function(gulp, config) {
 
 		var defaultResolveOptions = {
 			modulesDirectories: [
-               'node_modules',
-               config.source.features + '/application',
-               config.source.features + '/domain',
-               config.source.features + '/modules',
-               config.source.features + '/ko-bindings',
-               config.source.features + '/ko-components'
+               'node_modules'
            ]
 		};
+
+		// dinamically add sub-modules as sources for webpack global names
+		if (config.subModules) {
+			config.subModules.forEach(function(module) {
+				defaultResolveOptions.modulesDirectories.push(path.join(config.source.modules, module));
+			});
+		} else {
+			defaultResolveOptions.modulesDirectories.push(config.source.modules);
+		}
 
 	    // extend with config file options
 	    var webpackConfig = extend({}, defaultOptions, config.webpack.dev());
