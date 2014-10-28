@@ -30,6 +30,29 @@ exports.start = function(gulp, config) {
 	    }
 	});
 
+	gulp.task('wks-install-karma', function(done) {
+		var cmd = 'npm install ' + [
+			"karma@^0.12.24",
+		    "karma-chai@^0.1.0",
+		    "karma-coverage@^0.2.6",
+		    "karma-mocha@^0.1.9",
+		    "karma-osx-reporter@^0.1.0",
+		    "karma-phantomjs-launcher@^0.1.4",
+		    "karma-sinon@^1.0.3",
+		    "karma-webpack@^1.3.1",
+		    "istanbul@^0.3.2",
+		    "istanbul-instrumenter-loader@^0.1.2",
+		    "mocha@^2.0.1",
+		    "chai@^1.9.2",
+		    "sinon@^1.10.3"
+		].join(' ');
+		var watch = childProcess.exec(cmd, function() {});
+	    watch.stdout.on('data', function(data) {
+	        console.log(data);
+	    });
+	    watch.on('exit', done);
+	});
+
 };
 
 function startServer(done) {
