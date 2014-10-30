@@ -117,7 +117,8 @@ exports.start = function(gulp, config) {
 
 	gulp.task('wkd-less', function () {
 	    gulp.src([
-	    	path.join(config.source.path, config.source.styles, '*.less')
+	    	path.join(config.source.path, config.source.styles, '*.less'),
+            '!' + path.join(config.source.path, config.source.styles, '*.inc.less'),
 	    ])
 	        .pipe(size({ title: 'less', 'showFiles': true }))
 	        .pipe(sourcemaps.init())

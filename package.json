@@ -1,6 +1,6 @@
 {
   "name": "gulp-workspace",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "PoliteJS Workspace Utility Package for GulpJS",
   "main": "index.js",
   "peerDependencies": {
@@ -19,6 +19,7 @@
     "gulp-sourcemaps": "^1.2.4",
     "gulp-util": "^3.0.1",
     "webpack": "^1.4.8",
+    "raw-loader": "^0.5.1",
     "jshint-stylish": "^1.0.0",
     "uglify-js": "^2.4.15"
   },
@@ -50,10 +51,18 @@
     "commonjs",
     "less"
   ],
-  "author": "PoliteJS.com",
+  "author": {
+    "name": "PoliteJS.com"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/PoliteJS/gulp-workspace/issues"
   },
-  "homepage": "https://github.com/PoliteJS/gulp-workspace"
+  "homepage": "https://github.com/PoliteJS/gulp-workspace",
+  "readme": "Gulp Workspace\n==============\n\nThis is a utility package to use within a PoliteJS Workspace 2.0 project.\n\n> documentation is about to come...  \n> so far **it works on my machine!**\n\n* [10/26/14] added LiveReload support to the debug server",
+  "readmeFilename": "README.md",
+  "gitHead": "4059645f410e5907d4ddfe3b7596b9bebd4257f6",
+  "_id": "gulp-workspace@0.0.10",
+  "_shasum": "7d61bf5503737a6a7729e579bf22c5941a5466a4",
+  "_from": "gulp-workspace@0.0.x"
 }
