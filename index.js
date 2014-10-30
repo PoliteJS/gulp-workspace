@@ -2,6 +2,7 @@ var extend = require('jqb-extend');
 var dots = require('eivindfjeldstad-dot');
 
 var devTasks = require('./tasks/dev');
+var webpackTasks = require('./tasks/webpack');
 var sharedTasks = require('./tasks/shared');
 var serverTasks = require('./tasks/server');
 
@@ -15,7 +16,7 @@ exports.init = function(config) {
 exports.start = function(gulp) {
 	var self = this;
 	this.gulp = gulp;
-	[sharedTasks, devTasks, serverTasks].forEach(function(tasks) {
+	[sharedTasks, webpackTasks, devTasks, serverTasks].forEach(function(tasks) {
 		tasks.start(self.gulp, self.config);
 	});
 };
