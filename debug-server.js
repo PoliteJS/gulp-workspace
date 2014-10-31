@@ -25,7 +25,7 @@ var server = http.createServer(app);
 
 var serveStatic = require('serve-static')
 var cookieParser = require('cookie-parser');
-
+var compression = require('compression')
 
 // dynamic settings for path and port
 var TARGET = null;
@@ -61,6 +61,8 @@ if (TARGET.toLocaleLowerCase().indexOf('build/prod') !== -1) {
     RELEASE_MODE = true;
 }
 
+// Compress output
+app.use(compression());
 
 // Parsing
 app.use(cookieParser());
