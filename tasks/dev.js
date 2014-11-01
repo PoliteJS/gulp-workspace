@@ -75,10 +75,14 @@ exports.start = function(gulp, config) {
 
 	var copyHtmlSrc = [
 		path.join(config.source.path, '**/*.html'),
-		'!' + path.join(config.source.path, config.source.assets, '**/*.html'),
-		'!' + path.join(config.source.path, config.source.scripts, '**/*.html'),
-		'!' + path.join(config.source.path, config.source.styles, '**/*.html'),
+		'!' + path.join(config.source.path, config.source.assets, '**/*.html')
 	];
+	if (config.source.path, config.source.scripts && config.source.path, config.source.scripts !== '.') {
+		copyHtmlSrc.push('!' + path.join(config.source.path, config.source.scripts, '**/*.html'));
+	}
+	if (config.source.path, config.source.styles && config.source.path, config.source.styles !== '.') {
+		copyHtmlSrc.push('!' + path.join(config.source.path, config.source.styles, '**/*.html'));
+	}
 	config.source.features.forEach(function(feature) {
 		copyHtmlSrc.push('!' + path.join(config.source.path, feature, '**/*.html'));
 	});

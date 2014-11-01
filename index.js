@@ -16,8 +16,8 @@ exports.init = function(config) {
 	        path: 'app',
 	        assets: 'assets',
 			features: 'features',
-			scripts: 'core',
-	        styles: 'core'
+			scripts: '.',
+	        styles: '.'
 	    },
 		target: {
 			dev: {
