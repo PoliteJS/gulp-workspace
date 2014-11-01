@@ -17,6 +17,7 @@
 var http = require('http');
 var path = require('path');
 var fs = require('fs');
+var extend = require('jqb-extend');
 
 var express = require('express');
 
@@ -33,6 +34,29 @@ var PORT = null;
 var RELEASE_MODE = false;
 
 var args = require('yargs').argv;
+var config = {};
+
+// try to parse config from arguments json config
+if (args.c) {
+    try {
+        eval('config = ' + decodeURIComponent(args.c));
+    } catch(e) {
+        console.log('Server configuration parsin error:');
+        console.log(e);
+        console.log(args.c);
+    }
+    config = extend({}, config || {});
+}
+
+if (config.target) {
+    TARGET = config.target;
+}
+
+if (config.port) {
+    PORT = config.port;
+}
+
+// direct arguments overrides configuration
 
 if (args.w) {
     TARGET = args.w;
@@ -44,8 +68,9 @@ if (args.p) {
 
 // default settings
 if (TARGET === null) {
-    TARGET = 'build/dev/';
+    TARGET = 'build/dev';
 }
+
 if (PORT === null) {
     PORT = '8080';
 }
@@ -56,20 +81,17 @@ var ROOT_DIR = process.cwd();
 var PUBLIC_DIR = path.join(ROOT_DIR, '' + TARGET);
 
 
-// RELEASE MODE FLAG
-if (TARGET.toLocaleLowerCase().indexOf('build/prod') !== -1) {
-    RELEASE_MODE = true;
-}
-
 // Compress output
-app.use(compression());
+if (config.compress) {
+    app.use(compression());
+}
 
 // Parsing
 app.use(cookieParser());
 
 
 // prevent cache
-if (!RELEASE_MODE) {
+if (!config.isDev) {
     app.use(function(req, res, next){
         req.connection.setTimeout(500);
         res.setHeader('Last-Modified', (new Date()).toUTCString());

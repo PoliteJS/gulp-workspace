@@ -1,20 +1,20 @@
 var childProcess = require('child_process');
-var open = require("open");
+var open = require('open');
 
 exports.start = function(gulp, config) {
 
 	gulp.task('wks-server', function (done) {
-		startServer(done);
+		startServer(config, done);
 	});
 
 	gulp.task('wks-server-show', function (done) {
-		var port = startServer(done);
+		var port = startServer(config, done);
 		open('http://localhost:' + port);
 	});
 
 	gulp.task('wks-start', function (done) {
 		var args = require('yargs').argv;
-		startServer(function() {
+		startServer(config, function() {
 	    	console.log('development server has crashed');
 	    	done();
 	    });
@@ -55,8 +55,8 @@ exports.start = function(gulp, config) {
 
 };
 
-function startServer(done) {
-
+function startServer(config, done) {
+	
 	var usingPort = '8080';
 
 	var processArgs;
@@ -74,12 +74,14 @@ function startServer(done) {
 		usingPort = processArgs.p;
 	}
 	if (processArgs.r) {
-		serverArgs += ' -w build/prod';
+		serverArgs += ' -w ' + config.target.prod.path;
+		serverArgs += ' -c ' + encodeURIComponent(JSON.stringify(config.server.prod || {}));
 	} else {
-		serverArgs += ' -w build/dev';
+		serverArgs += ' -w ' + config.target.dev.path;
+		serverArgs += ' -c ' + encodeURIComponent(JSON.stringify(config.server.dev || {}));
 	}
-
-	serverExec = 'node node_modules/gulp-workspace/debug-server.js' + serverArgs;
+	
+	serverExec = 'node node_modules/gulp-workspace/server.js' + serverArgs;
 
 	var server = childProcess.exec(serverExec, function() {});
     
