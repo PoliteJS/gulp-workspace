@@ -61,7 +61,7 @@ function startServer(config, done) {
 
 	var processArgs;
 	var serverArgs = '';
-	var serverExec = 'foo';
+	var serverExec = '';
 
 	try {
 		processArgs = require('yargs').argv;
@@ -76,12 +76,14 @@ function startServer(config, done) {
 	if (processArgs.r) {
 		serverArgs += ' -w ' + config.target.prod.path;
 		serverArgs += ' -c ' + encodeURIComponent(JSON.stringify(config.server.prod || {}));
+		serverExec = config.server.prod.exec;
 	} else {
 		serverArgs += ' -w ' + config.target.dev.path;
 		serverArgs += ' -c ' + encodeURIComponent(JSON.stringify(config.server.dev || {}));
+		serverExec = config.server.dev.exec;
 	}
 	
-	serverExec = 'node node_modules/gulp-workspace/server.js' + serverArgs;
+	serverExec += ' node_modules/gulp-workspace/server.js' + serverArgs;
 
 	var server = childProcess.exec(serverExec, function() {});
     
