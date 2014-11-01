@@ -73,6 +73,16 @@ exports.start = function(gulp, config) {
 	 * HTML & ASSETS
 	 */
 
+	var copyHtmlSrc = [
+		path.join(config.source.path, '**/*.html'),
+		'!' + path.join(config.source.path, config.source.assets, '**/*.html'),
+		'!' + path.join(config.source.path, config.source.scripts, '**/*.html'),
+		'!' + path.join(config.source.path, config.source.styles, '**/*.html'),
+	];
+	config.source.modules.forEach(function(module) {
+		copyHtmlSrc.push('!' + path.join(config.source.path, module, '**/*.html'));
+	});
+
 	gulp.task('wkd-copy-assets', function () {
 	    return gulp.src([
 	    	path.join(config.source.path, config.source.assets, '**/*'), '!**/*.less'
@@ -83,12 +93,7 @@ exports.start = function(gulp, config) {
 	});
 
 	gulp.task('wkd-copy-html', function () {
-	    return gulp.src([
-	    	path.join(config.source.path, '**/*.html'),
-	    	'!' + path.join(config.source.path, config.source.assets, '**/*.html'),
-	    	// '!' + path.join(config.source.path, config.source.scripts, '**/*.html'),
-	    	'!' + path.join(config.source.path, config.source.modules, '**/*.html')
-	    ])
+	    return gulp.src(copyHtmlSrc)
 	        .pipe(changed('build/dev'))
 	        .pipe(change(htmlBundle))
 	        .pipe(gulp.dest(config.target.dev.path))
@@ -96,12 +101,7 @@ exports.start = function(gulp, config) {
 	});
 
 	gulp.task('wkd-copy-html-hard', function () {
-	    return gulp.src([
-	    	path.join(config.source.path, '**/*.html'),
-	    	'!' + path.join(config.source.path, config.source.assets, '**/*.html'),
-	    	// '!' + path.join(config.source.path, config.source.core, '**/*.html'),
-	    	'!' + path.join(config.source.path, config.source.modules, '**/*.html')
-	    ])
+	    return gulp.src(copyHtmlSrc)
 	        .pipe(change(htmlBundle))
 	        .pipe(gulp.dest(config.target.dev.path))
 	    ;
