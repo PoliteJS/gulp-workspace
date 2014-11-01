@@ -24,10 +24,11 @@ var express = require('express');
 var app = express();
 var server = http.createServer(app);
 
-var serveStatic = require('serve-static')
+var serveStatic = require('serve-static');
 var cookieParser = require('cookie-parser');
-var compression = require('compression')
+var compression = require('compression');
 
+var lifeCycle = require('jqb-lifecycle');
 // dynamic settings for path and port
 var TARGET = null;
 var PORT = null;
@@ -98,6 +99,25 @@ if (!config.isDev) {
         req.connection.setTimeout(500);
         next();
     });
+}
+
+// init custom logic
+var entryPoint, featuresPath, features;
+if (config.entryPoint) {
+    entryPoint = require(path.join(process.cwd(), config.entryPoint));
+    entryPoint.init && entryPoint.init(server, app, config);
+}
+if (config.features) {
+    featuresPath = path.join(process.cwd(), config.features);
+    features = fs.readdirSync(featuresPath).filter(function(name) {
+        return name.indexOf('.') === -1;
+    }).map(function(name) {
+        return require(path.join(featuresPath, name));
+    });
+    lifeCycle.start(features, server, app, config);
+}
+if (entryPoint) {
+    entryPoint.start && entryPoint.start();
 }
 
 // static files

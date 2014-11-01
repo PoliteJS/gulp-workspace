@@ -29,10 +29,12 @@ exports.init = function(config) {
 		},
 		server: {
 			dev: {
+				exec: 'node',
 				isDev: true,
 				compress: true
 			},
 			prod: {
+				exec: 'node',
 				isDev: false,
 				compress: true
 			}
