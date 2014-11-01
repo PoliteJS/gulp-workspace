@@ -15,7 +15,7 @@ exports.init = function(config) {
 		source: {
 	        path: 'app',
 	        assets: 'assets',
-			modules: 'modules',
+			features: 'features',
 			scripts: 'core',
 	        styles: 'core'
 	    },
@@ -39,8 +39,8 @@ exports.init = function(config) {
 		}
 	}, config || {});
 
-	if (typeof this.config.source.modules === 'string') {
-		this.config.source.modules = [this.config.source.modules];
+	if (typeof this.config.source.features === 'string') {
+		this.config.source.features = [this.config.source.features];
 	}
 
 	return this;

@@ -79,8 +79,8 @@ exports.start = function(gulp, config) {
 		'!' + path.join(config.source.path, config.source.scripts, '**/*.html'),
 		'!' + path.join(config.source.path, config.source.styles, '**/*.html'),
 	];
-	config.source.modules.forEach(function(module) {
-		copyHtmlSrc.push('!' + path.join(config.source.path, module, '**/*.html'));
+	config.source.features.forEach(function(feature) {
+		copyHtmlSrc.push('!' + path.join(config.source.path, feature, '**/*.html'));
 	});
 
 	gulp.task('wkd-copy-assets', function () {

@@ -47,8 +47,8 @@ exports.start = function(gulp, config) {
 		};
 
 		// dinamically add sub-modules as sources for webpack global names
-		config.source.modules.forEach(function(module) {
-			defaultResolveOptions.modulesDirectories.push(module);
+		config.source.features.forEach(function(feature) {
+			defaultResolveOptions.modulesDirectories.push(feature);
 		});
 
 	    // extend with config file options
