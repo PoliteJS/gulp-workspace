@@ -10,6 +10,7 @@ var serverTasks = require('./tasks/server');
 var karmaConf = require('./lib/karma-conf');
 
 exports.init = function(config) {
+	
 	this.config = extend(true, {
 		source: {
 	        path: 'app',
@@ -37,6 +38,11 @@ exports.init = function(config) {
 			}
 		}
 	}, config || {});
+
+	if (typeof this.config.source.modules === 'string') {
+		this.config.source.modules = [this.config.source.modules];
+	}
+
 	return this;
 };
 
