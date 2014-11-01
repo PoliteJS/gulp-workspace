@@ -1,4 +1,5 @@
-var extend = require('jqb-extend');
+
+var extend = require('extend');
 var dots = require('eivindfjeldstad-dot');
 
 var devTasks = require('./tasks/dev');
@@ -9,16 +10,42 @@ var serverTasks = require('./tasks/server');
 var karmaConf = require('./lib/karma-conf');
 
 exports.init = function(config) {
-	this.config = config;
+	this.config = extend(true, {
+		source: {
+	        path: 'app',
+	        assets: 'assets',
+			modules: 'modules',
+			scripts: 'core',
+	        styles: 'core'
+	    },
+		target: {
+			dev: {
+	            path: 'build/dev'
+	        },
+	        prod: {
+	            path: 'build/prod'
+	        }
+		},
+		server: {
+			dev: {
+				isDev: true,
+				compress: true
+			},
+			prod: {
+				isDev: false,
+				compress: true
+			}
+		}
+	}, config || {});
 	return this;
 };
 
 exports.start = function(gulp) {
-	var self = this;
 	this.gulp = gulp;
-	[sharedTasks, webpackTasks, devTasks, serverTasks].forEach(function(tasks) {
-		tasks.start(self.gulp, self.config);
-	});
+	sharedTasks.start(gulp, this.config);
+	webpackTasks.start(gulp, this.config);
+	devTasks.start(gulp, this.config);
+	serverTasks.start(gulp, this.config);
 };
 
 exports.getConfig = function(path) {
