@@ -59,8 +59,9 @@ exports.start = function(gulp, config) {
 	    // handle html in modules
 	    pushLoader(webpackConfig, {
 	    	test: /\.html$/, 
-	    	loader: "raw"
+	    	loader: "raw!gulp-workspace/lib/markdown-tag-loader"
 	    });
+
 
 	    // fetch entry points dynamically
 	    if (!Object.keys(webpackConfig.entry).length) {
