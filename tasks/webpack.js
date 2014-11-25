@@ -24,7 +24,7 @@ exports.start = function(gulp, config) {
 	        resolve: {},
 	        module: {},
 	        plugins: [],
-	        devtool: 'sourcemap',
+	        devtool: config.target.dev.js.sourcemaps ? 'sourcemap' : false,
 	        debug: true,
 	        json: true,
 	        progress: true,
@@ -70,6 +70,12 @@ exports.start = function(gulp, config) {
 			}).forEach(function(file) {
 				webpackConfig.entry[file.substr(0, file.indexOf('.'))] = './' + file
 			});
+	    }
+
+	    // minifications from configuration
+	    if (config.target.dev.js.minify === true) {
+	    	webpackConfig.plugins.push(new webpack.optimize.DedupePlugin());
+	    	webpackConfig.plugins.push(new webpack.optimize.UglifyJsPlugin());
 	    }
 
 	    // push stats plugin

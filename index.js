@@ -21,7 +21,15 @@ exports.init = function(config) {
 	    },
 		target: {
 			dev: {
-	            path: 'build/dev'
+	            path: 'build/dev',
+	            css: {
+	            	sourcemaps: true,
+	            	minify: false
+	            },
+	            js: {
+	            	sourcemaps: true,
+	            	minify: false
+	            }
 	        },
 	        prod: {
 	            path: 'build/prod'

@@ -9,6 +9,8 @@ var extend = require('jqb-extend');
 var webpack = require('webpack');
 var gutil = require('gulp-util');
 var change = require('gulp-change');
+var gulpif = require('gulp-if');
+var minifyCSS = require('gulp-minify-css');
 
 var htmlBundle = require('../lib/dev-html-bundle');
 
@@ -125,9 +127,10 @@ exports.start = function(gulp, config) {
             '!' + path.join(config.source.path, config.source.styles, '*.inc.less'),
 	    ])
 	        .pipe(size({ title: 'less', 'showFiles': true }))
-	        .pipe(sourcemaps.init())
+	        .pipe(gulpif(config.target.dev.css.sourcemaps, sourcemaps.init()))
 	        .pipe(less())
-	        .pipe(sourcemaps.write('./'))
+	        .pipe(gulpif(config.target.dev.css.minify, minifyCSS({keepBreaks:false})))
+	        .pipe(gulpif(config.target.dev.css.sourcemaps, sourcemaps.write('./')))
 	        .pipe(gulp.dest(path.join(config.target.dev.path, config.source.styles)));
 	});
 
