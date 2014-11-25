@@ -123,6 +123,11 @@ if (entryPoint) {
 // static files
 app.use(serveStatic(PUBLIC_DIR));
 
+// pushstate support
+app.get('*', function(request, response){
+    response.sendfile(PUBLIC_DIR + '/index.html');
+});
+
 // Start
 server.listen(PORT);
 console.log(' ');
