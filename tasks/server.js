@@ -1,5 +1,9 @@
 var childProcess = require('child_process');
 var open = require('open');
+var path = require('path');
+var notifier = require('node-notifier');
+
+var __childProcesses = [];
 
 exports.start = function(gulp, config) {
 
@@ -14,20 +18,17 @@ exports.start = function(gulp, config) {
 
 	gulp.task('wks-start', function (done) {
 		var args = require('yargs').argv;
-		startServer(config, function() {
-	    	console.log('development server has crashed');
-	    	done();
-	    });
 	    startWatch(function() {
-	    	console.log('watch proces has crashed');
-	    	done();
+	    	killAll('watch proces has crashed');
 	    });
 	    if (args.t) {
 	    	startTdd(function() {
-		    	console.log('tdd proces has crashed');
-		    	done();
+		    	killAll('tdd proces has crashed');
 		    });
 	    }
+	    startServer(config, function() {
+	    	killAll('development server has crashed');
+	    });
 	});
 
 	gulp.task('wks-install-karma', function(done) {
@@ -88,10 +89,11 @@ function startServer(config, done) {
 	var server = childProcess.exec(serverExec, function() {});
     
     server.stdout.on('data', function(data) {
-        console.log(data);
+    	process.stdout.write(data);
     });
     
     server.on('exit', done);
+    __childProcesses.push(server);
 
     return usingPort;
 }
@@ -99,15 +101,48 @@ function startServer(config, done) {
 function startWatch(done) {
 	var watch = childProcess.exec('gulp watch', function() {});
     watch.stdout.on('data', function(data) {
-        console.log(data);
+    	process.stdout.write(data);
     });
+
     watch.on('exit', done);
+    __childProcesses.push(watch);
 }
 
 function startTdd(done) {
 	var watch = childProcess.exec('gulp tdd', function() {});
     watch.stdout.on('data', function(data) {
-        console.log(data);
+        process.stdout.write(data);
     });
+
     watch.on('exit', done);
+    __childProcesses.push(watch);
+}
+
+
+/**
+ * Kill all the child processes and terminate the process
+ */
+var __isKilling;
+function killAll(msg) {
+	if (__isKilling) {
+		return;
+	}
+	__isKilling = true;
+
+	console.log('');
+	console.log('');
+	console.log(msg);
+	console.log('');
+	console.log('');
+
+	notifier.notify({
+		title: 'Workspace Crash',
+		message: msg,
+		sound: 'Basso'
+	});
+
+	__childProcesses.forEach(function(child) {
+		child.kill();
+	});
+	process.exit(1);
 }
