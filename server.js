@@ -47,6 +47,19 @@ if (args.c) {
         console.log(args.c);
     }
     config = extend({}, config || {});
+
+// load config from workspace.conf.js    
+} else {
+    var userConfig = require(path.join(process.cwd(), 'workspace.conf.js'));
+    var Workspace = require('./index');
+    Workspace.init(userConfig);
+    config = Workspace.getConfig();
+    // console.log(config);
+    // console.log("----");
+    config.server.dev.target = config.target.dev.path;
+    console.log(config.server.dev);
+    // process.exit(1);
+    config = config.server.dev;
 }
 
 if (config.target) {
@@ -137,7 +150,10 @@ console.log('http://localhost:%s', PORT);
 console.log('===================================');
 
 // live reload
-var livereload = require('livereload');
-server = livereload.createServer();
-server.watch(PUBLIC_DIR);
+if (config.livereload !== false) {
+    console.log('livereload');
+    var livereload = require('livereload');
+    server = livereload.createServer();
+    server.watch(PUBLIC_DIR);
+}
 
