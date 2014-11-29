@@ -151,7 +151,9 @@ console.log('===================================');
 
 // live reload
 if (config.livereload !== false) {
-    console.log('livereload');
+    console.log(' ');
+    console.log('LiveReload is enabled!');
+    console.log(' ');
     var livereload = require('livereload');
     server = livereload.createServer();
     server.watch(PUBLIC_DIR);
