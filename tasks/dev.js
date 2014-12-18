@@ -91,7 +91,9 @@ exports.start = function(gulp, config) {
 
 	gulp.task('wkd-copy-assets', function () {
 	    return gulp.src([
-	    	path.join(config.source.path, config.source.assets, '**/*'), '!**/*.less'
+	    	path.join(config.source.path, config.source.assets, '**/*'), 
+	    	'!**/*.less',		// skip less sources
+	    	'!**/*.inc.html'	// skip html imports
 	    ])
 	        .pipe(changed(path.join(config.target.dev.path, config.source.assets)))
 	        .pipe(gulp.dest(path.join(config.target.dev.path, config.source.assets)))
