@@ -22,6 +22,7 @@ exports.init = function(config) {
 		target: {
 			dev: {
 	            path: 'build/dev',
+	            bundleJsLibs: true,
 	            css: {
 	            	sourcemaps: true,
 	            	minify: false
