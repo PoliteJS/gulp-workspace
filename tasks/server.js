@@ -46,7 +46,8 @@ exports.start = function(gulp, config) {
 		    "istanbul-instrumenter-loader@^0.1.2",
 		    "mocha@^2.0.1",
 		    "chai@^1.9.2",
-		    "sinon@^1.10.3"
+		    "sinon@^1.10.3",
+		    "react@^0.12.2",
 		].join(' ');
 		var watch = childProcess.exec(cmd, function() {});
 	    watch.stdout.on('data', function(data) {
