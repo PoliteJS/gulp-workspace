@@ -26,6 +26,8 @@
     "gulp-size": "^1.1.x",
     "gulp-sourcemaps": "1.2.x",
     "gulp-util": "^3.0.x",
+    "gulp-cached": "^1.0.2",
+    "gulp-react": "^2.0.0",
     "jqb-extend": "0.0.x",
     "jqb-lifecycle": "0.0.x",
     "jshint-stylish": "^1.0.x",
