@@ -5,7 +5,7 @@ var changed = require('gulp-changed');
 var sourcemaps = require('gulp-sourcemaps');
 var less = require('gulp-less');
 var size = require('gulp-size');
-var extend = require('jqb-extend');
+var extend = require('extend');
 var webpack = require('webpack');
 var gutil = require('gulp-util');
 var change = require('gulp-change');
@@ -61,7 +61,6 @@ exports.start = function(gulp, config) {
 	    	test: /\.html$/, 
 	    	loader: "raw!gulp-workspace/lib/markdown-tag-loader"
 	    });
-
 
 	    // fetch entry points dynamically
 	    if (!Object.keys(webpackConfig.entry).length) {
