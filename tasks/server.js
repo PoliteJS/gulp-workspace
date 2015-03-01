@@ -41,11 +41,13 @@ exports.start = function(gulp, config) {
 		    "karma-phantomjs-launcher@^0.1.4",
 		    "karma-sinon@^1.0.3",
 		    "karma-webpack@^1.3.1",
+		    "karma-es5-shim@^0.0.4",
 		    "istanbul@^0.3.2",
 		    "istanbul-instrumenter-loader@^0.1.2",
 		    "mocha@^2.0.1",
 		    "chai@^1.9.2",
-		    "sinon@^1.10.3"
+		    "sinon@^1.10.3",
+		    "react@^0.12.2",
 		].join(' ');
 		var watch = childProcess.exec(cmd, function() {});
 	    watch.stdout.on('data', function(data) {

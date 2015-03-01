@@ -1,12 +1,13 @@
 {
   "name": "gulp-workspace",
-  "version": "0.0.36",
+  "version": "0.0.37",
   "description": "PoliteJS Workspace Utility Package for GulpJS",
   "main": "index.js",
   "peerDependencies": {
     "gulp": "^3.8.x",
     "run-sequence": "^1.0.x",
-    "raw-loader": "^0.5.x"
+    "raw-loader": "^0.5.x",
+    "jsx-loader": "^0.12.2"
   },
   "dependencies": {
     "MD5": "^1.2.x",
@@ -26,6 +27,8 @@
     "gulp-size": "^1.1.x",
     "gulp-sourcemaps": "1.2.x",
     "gulp-util": "^3.0.x",
+    "gulp-cached": "^1.0.2",
+    "gulp-react": "^2.0.0",
     "jqb-extend": "0.0.x",
     "jqb-lifecycle": "0.0.x",
     "jshint-stylish": "^1.0.x",
