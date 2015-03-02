@@ -27,6 +27,7 @@ exports.start = function(gulp, config) {
 	            sourceMapFilename: '[file].map'
 			},
 	        resolve: {
+	        	extensions: ['', '.js', '.jsx'],
 				modulesDirectories: [
 	               'node_modules'
 	           ]

@@ -1,7 +1,7 @@
 var path = require('path');
 var jshint = require('gulp-jshint');
 var stylish = require('jshint-stylish');
-var react = require('gulp-react');;
+var react = require('gulp-react');
 var cache = require('gulp-cached');
 
 exports.start = function(gulp, config) {

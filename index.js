@@ -30,6 +30,10 @@ exports.init = function(config) {
 	            js: {
 	            	sourcemaps: true,
 	            	minify: false
+	            },
+	            libs: {
+	            	bundle: false,
+	            	minify: false
 	            }
 	        },
 	        prod: {
